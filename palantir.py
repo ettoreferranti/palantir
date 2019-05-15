@@ -2,9 +2,10 @@ import bme280
 import picamera
 import time 
 import grovepi
+from datetime import datetime
 
 class Palantir:
-    def __init__(self, resolution = (1920, 1080), framerate = 30, rotation = 0):
+    def __init__(self, resolution = (480, 270), framerate = 24, rotation = 0):
         self.camera = picamera.PiCamera()
         self.camera.resolution = resolution
         self.camera.framerate = framerate
@@ -46,8 +47,8 @@ def wait_for_motion():
                 if motion == 1:
                     print('Say Cheese!')
                     #take_picture('foo.jpg', take_env_info())
-                    palantir.take_video('video.h264', duration = 10, annotation = env.get_env_info())
-                    exit(0)
+                    stringTime = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+                    palantir.take_video(stringTime + '.h264', duration = 60, annotation = env.get_env_info())
             time.sleep(.2)
         except IOError:
             print('Error')
